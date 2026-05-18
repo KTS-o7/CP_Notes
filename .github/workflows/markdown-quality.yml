@@ -1,0 +1,40 @@
+name: Markdown quality
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".github/workflows/markdown-quality.yml"
+      - ".markdownlint-cli2.jsonc"
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.md"
+      - ".github/workflows/markdown-quality.yml"
+      - ".markdownlint-cli2.jsonc"
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v20
+        with:
+          globs: |
+            README.md
+            CONTRIBUTING.md
+            OS/README.md
+            CN/README.md
+            DBMS/README.md
+            .github/pull_request_template.md
+
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude "api.star-history.com|star-history.com" README.md CONTRIBUTING.md OS/README.md CN/README.md DBMS/README.md .github/pull_request_template.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
