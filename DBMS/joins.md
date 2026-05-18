@@ -420,3 +420,23 @@ Merge: 10==10 → output(A,X), output(A,Y). Advance ptr_S.
 
 7. **Q: Can you JOIN without a foreign key?**
    - Yes! A join is a logical operation based on any condition. Foreign keys enforce integrity but are not required for joins. You can join on any expression: `ON a.name = b.full_name`, `ON a.salary > b.threshold`, etc.
+
+## Practice Exercises
+
+### Beginner
+1. Using `employees` and `departments`, write an `INNER JOIN` that lists only employees with departments.
+2. Write a `LEFT JOIN` that also includes employees with no department.
+3. Write a `RIGHT JOIN` or equivalent `LEFT JOIN` that lists departments with no employees.
+4. Explain why a `CROSS JOIN` can produce a very large result.
+5. Write a self join to find pairs of employees in the same department.
+
+### Interview
+1. Explain the difference between join type and join algorithm.
+2. When is hash join better than nested loop join?
+3. Why does an index nested loop join work well when the outer table is small?
+4. What is join explosion and how can you reduce it?
+5. Why is `NATURAL JOIN` risky in production code?
+
+### Hands-on
+1. Create the sample `employees` and `departments` tables from this note and run every join query.
+2. Add an index on `employees(dept_id)`, run `EXPLAIN`, and compare the plan before and after indexing.

@@ -237,7 +237,7 @@ Transaction T (TS=50) reads X:
     X versions:  v1 (created by T10, deleted by T30)
                  v2 (created by T30, deleted by T60)  <-- T sees this one
                  v3 (created by T60, not deleted)
-    
+
     T sees v2 because it was alive at TS=50.
 ```
 
@@ -286,11 +286,11 @@ Assumes conflicts are **rare** and validates at commit time rather than during e
 Phase 1 — Read Phase:
     Execute transaction privately. Read values into local workspace.
     All writes go to local copies (not the database).
-    
+
 Phase 2 — Validation Phase:
     Check if any conflict occurred with other concurrent transactions.
     If conflict detected → ABORT and restart.
-    
+
 Phase 3 — Write Phase:
     If validation succeeds → apply local writes to the database.
 ```
@@ -324,9 +324,9 @@ A **deadlock** occurs when T1 waits for T2, and T2 waits for T1 (or a longer cyc
 Deadlock Example:
     T1: Lock(A) → Lock(B)    (holds A, waits for B)
     T2: Lock(B) → Lock(A)    (holds B, waits for A)
-    
+
     Wait-for graph: T1 → T2 → T1 (cycle → deadlock!)
-    
+
     T1 has A, wants B       T2 has B, wants A
          ┌───┐                  ┌───┐
          │T1 │─────────────────>│T2 │
@@ -357,13 +357,13 @@ Both use transaction timestamps to break deadlocks without detection.
 Wait-Die (non-preemptive):
     T_old requests lock held by T_young → T_old WAITS
     T_young requests lock held by T_old → T_young DIES (aborts)
-    
+
     "Older can wait, younger must restart."
 
 Wound-Wait (preemptive):
     T_old requests lock held by T_young → T_young is WOUNDED (aborted), T_old gets lock
     T_young requests lock held by T_old → T_young WAITS
-    
+
     "Older wounds younger, younger waits for older."
 ```
 
@@ -439,3 +439,34 @@ Methods:
 
 7. **Q: How do you detect deadlocks in a database?**
    - Build a wait-for graph (nodes = transactions, edges = waiting relationships). If there's a cycle, a deadlock exists. In PostgreSQL, enable `log_lock_waits` and check `deadlock_timeout`. In MySQL InnoDB, check `SHOW ENGINE INNODB STATUS` or enable `innodb_print_all_deadlocks`.
+
+## SQL Isolation Levels
+
+| Isolation Level | Dirty Read | Non-Repeatable Read | Phantom Read | Typical Use |
+|-----------------|------------|---------------------|--------------|-------------|
+| Read Uncommitted | Possible | Possible | Possible | Rare; maximum concurrency, weak correctness |
+| Read Committed | Prevented | Possible | Possible | Common default for OLTP systems |
+| Repeatable Read | Prevented | Prevented | DB-specific behavior | Reports and transactions that reread rows |
+| Serializable | Prevented | Prevented | Prevented | Strong correctness when anomalies are unacceptable |
+
+Different databases implement these levels differently. Always check the DBMS documentation before relying on a specific anomaly being prevented.
+
+## Practice Exercises
+
+### Beginner
+1. Give one example each of dirty read, lost update, non-repeatable read, and phantom read.
+2. Draw a lock compatibility matrix for shared and exclusive locks.
+3. Explain the growing and shrinking phases of 2PL.
+4. Explain why Strict 2PL prevents cascading rollbacks.
+5. Identify whether MVCC readers block writers.
+
+### Interview
+1. Given a schedule, build the precedence graph and decide if it is conflict-serializable.
+2. Compare wait-die and wound-wait using one older and one younger transaction.
+3. Explain why timestamp ordering is deadlock-free.
+4. Describe write skew under snapshot isolation.
+5. Compare pessimistic locking and optimistic concurrency control.
+
+### Hands-on
+1. In two database sessions, reproduce a lock wait by updating the same row inside two transactions.
+2. Run the same read/update experiment under two isolation levels and note which anomalies are visible.

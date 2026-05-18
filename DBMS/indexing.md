@@ -303,7 +303,7 @@ CREATE INDEX idx_name ON employees(dept_id, salary);
 | Range queries on ordered data | Clustered B+ Tree |
 | Equality lookups only (no ranges) | Hash Index |
 | Secondary lookups on non-key columns | Non-Clustered B+ Tree |
-| Low-cardinality columns (gender, status) | Bitmap Index |
+| Low-cardinality columns (gender, status) | Bitmap Index in systems that support it directly, such as Oracle. PostgreSQL commonly uses bitmap scan plans internally, but users usually create B-tree, GIN, GiST, BRIN, or hash indexes instead. |
 | Multi-column filtering (prefix pattern) | Composite B+ Tree Index |
 | Full-text search | GIN (PostgreSQL) / FULLTEXT (MySQL) |
 | Geospatial queries | R-Tree / GiST |
@@ -341,3 +341,23 @@ CREATE INDEX idx_cover ON employees(dept_id, salary, name);
 SELECT dept_id, salary, name FROM employees WHERE dept_id = 5;
 -- All columns in the index → no table access needed.
 ```
+
+## Practice Exercises
+
+### Beginner
+1. Explain why an index can make `SELECT` faster but `INSERT` slower.
+2. For `students(id, name, branch, cgpa)`, choose one primary index and one secondary index.
+3. Give one query that benefits from a clustered index.
+4. Explain why a hash index is poor for `WHERE salary BETWEEN 50000 AND 70000`.
+5. For an index on `(dept_id, salary)`, decide whether each query can use the prefix: `WHERE dept_id=3`, `WHERE salary>50000`, `WHERE dept_id=3 AND salary>50000`.
+
+### Interview
+1. Compare B-Tree and B+ Tree for point lookup and range lookup.
+2. Explain dense vs sparse indexes using a sorted file.
+3. What happens to a B+ Tree when a leaf node overflows?
+4. Why can a table have only one clustered index?
+5. When would a full table scan be faster than using an index?
+
+### Hands-on
+1. Create a table with at least 10,000 rows, run `EXPLAIN` on a filtered query, add an index, and compare the plan.
+2. Create a composite index and test which predicates use it effectively.
