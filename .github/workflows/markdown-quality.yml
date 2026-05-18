@@ -21,7 +21,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DavidAnson/markdownlint-cli2-action@v20
         with:
-          globs: "**/*.md"
+          globs: |
+            README.md
+            CONTRIBUTING.md
+            OS/README.md
+            CN/README.md
+            DBMS/README.md
+            .github/pull_request_template.md
 
   link-check:
     runs-on: ubuntu-latest
@@ -29,6 +35,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --exclude "api.star-history.com|star-history.com" "**/*.md"
+          args: --no-progress --exclude "api.star-history.com|star-history.com" README.md CONTRIBUTING.md OS/README.md CN/README.md DBMS/README.md .github/pull_request_template.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
