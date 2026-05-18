@@ -24,6 +24,8 @@ This repository contains the notes for Interview Preparation for SDE interviews.
 | Queue                     | [QUEUE NOTES](./Queue_Notes.md)             |
 | Algorithms                | [ALGORITHMS NOTES](./Algorithms_Notes.md)   |
 | Operating Systems         | [OS NOTES](./OS/README.md)                  |
+| Computer Networks         | [CN NOTES](./CN/README.md)                  |
+| DBMS                      | [DBMS NOTES](./DBMS/README.md)              |
 
 ## Usage
 
