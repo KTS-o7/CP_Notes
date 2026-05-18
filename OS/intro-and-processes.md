@@ -8,9 +8,11 @@
 5. [Process Control Block (PCB)](#process-control-block)
 6. [Context Switching](#context-switching)
 7. [System Calls](#system-calls)
-8. [User Mode vs Kernel Mode](#user-mode-vs-kernel-mode)
-9. [OS Services & Structure](#os-services--structure)
-10. [Key Interview Questions](#key-interview-questions)
+8. [Inter-Process Communication (IPC)](#inter-process-communication-ipc)
+9. [User Mode vs Kernel Mode](#user-mode-vs-kernel-mode)
+10. [OS Services & Structure](#os-services--structure)
+11. [Key Interview Questions](#key-interview-questions)
+12. [Practice Exercises](#practice-exercises)
 
 ## What is an Operating System?
 
@@ -170,7 +172,7 @@ When the CPU switches from one process to another:
 ### Context Switch Cost
 - **Direct cost**: CPU cycles to save/load registers, update structures
 - **Indirect cost**: Cache misses (L1/L2/L3/TLB) — cache is cold for new process
-- **Typical**: ~1-10 microseconds on modern CPUs
+- **Typical**: often microseconds on modern systems, but the exact cost depends on CPU architecture, OS, workload, cache/TLB state, and whether the switch crosses address spaces.
 
 ### Frequency
 - Occurs on: time slice expiry, I/O request, interrupt, system call, preemption
@@ -189,6 +191,22 @@ A **system call** is the programmatic way for a user program to request a servic
 | **Information** | getpid(), gettimeofday(), sysinfo() |
 | **Communication** | pipe(), shmget(), socket(), connect(), send() |
 | **Protection** | chmod(), setuid(), chown() |
+
+## Inter-Process Communication (IPC)
+
+Processes have separate address spaces, so they need OS-supported mechanisms to communicate.
+
+| IPC Mechanism | How it works | Good for |
+|---------------|--------------|----------|
+| **Pipe** | Byte stream between related processes | Shell pipelines, parent-child communication |
+| **Named Pipe (FIFO)** | Pipe with a filesystem name | Unrelated local processes |
+| **Message Queue** | Kernel-managed queue of messages | Structured asynchronous messages |
+| **Shared Memory** | Multiple processes map the same memory region | Fast large-data exchange |
+| **Semaphore** | Counter used for synchronization | Coordinating access to shared resources |
+| **Signal** | Lightweight notification to a process | Interrupting, terminating, reloading config |
+| **Socket** | Endpoint for local or network communication | Client-server systems |
+
+Shared memory is fast because data is not copied through the kernel after setup, but it needs synchronization such as semaphores or mutexes to avoid races.
 
 ### System Call Flow
 ```
@@ -216,7 +234,7 @@ Modern CPUs have at least two privilege levels:
 | **Purpose** | Run applications safely | Run OS code |
 
 ### Dual-Mode Operation
-- **Mode bit** in CPU (in PSW/FLAGS register): 0=kernel, 1=user
+- **Mode/privilege state** in CPU control registers: exact representation is architecture-specific. Conceptually, one state allows privileged kernel execution and another restricts user programs.
 - Switched to kernel mode on: interrupt, trap, system call
 - Switched to user mode on: return from kernel
 
@@ -269,3 +287,16 @@ Monolithic:              Microkernel:
 
 5. **Q: Monolithic vs Microkernel — tradeoffs?**
    A: Monolithic is faster (function calls vs IPC overhead) but a bug in any module can crash the kernel. Microkernel is more stable (services isolated in user space) but IPC overhead makes it slower. Linux is monolithic (with modules), macOS/iOS use hybrid (Mach microkernel + BSD services).
+
+## Practice Exercises
+
+### Beginner
+1. List three differences between a program and a process.
+2. Draw the five process states and label every transition.
+3. Explain why a context switch is not free.
+4. Match each system call category with one example call.
+5. Choose an IPC mechanism for shell pipelines, shared cache data, and network communication.
+
+### Hands-on
+1. Write a small program that calls `fork()` and prints parent and child PIDs.
+2. Run `ps` or `top`, pick a process, and identify its PID, state, and CPU usage.

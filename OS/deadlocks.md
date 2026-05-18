@@ -8,6 +8,7 @@
 5. [Deadlock Avoidance](#deadlock-avoidance)
 6. [Deadlock Detection & Recovery](#deadlock-detection--recovery)
 7. [Key Interview Questions](#key-interview-questions)
+8. [Practice Exercises](#practice-exercises)
 
 ## What is a Deadlock?
 
@@ -218,3 +219,23 @@ Similar to Safety Algorithm but checks if any process can finish:
 
 5. **Q: Can deadlock occur with only one process?**
    A: No. Deadlock requires at least two processes by definition (circular wait among a set of processes). However, a single process could deadlock on itself if it needs to reacquire a lock it already holds (non-recursive mutex), but this is typically considered a programming error (self-deadlock) rather than a classic deadlock.
+
+## Practice Exercises
+
+### Beginner
+1. Give one real OS/programming example for each Coffman condition.
+2. Draw a resource allocation graph for two processes and two resources that deadlocks.
+3. Draw a graph with a cycle that is not necessarily deadlocked because resources have multiple instances.
+4. Explain the difference between deadlock prevention and deadlock avoidance.
+5. Explain why killing one process can recover from deadlock.
+
+### Banker's Algorithm
+1. Given Allocation and Max matrices, calculate the Need matrix.
+2. Run the safety algorithm and find one safe sequence.
+3. Try granting a new request and decide if the resulting state is safe.
+4. Explain why an unsafe state is not always a deadlocked state.
+5. Explain why Banker's algorithm is uncommon in general-purpose operating systems.
+
+### Hands-on
+1. Write two threads that lock `A` then `B` and `B` then `A`; observe the deadlock.
+2. Fix the program by enforcing a single lock ordering.

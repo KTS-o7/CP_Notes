@@ -23,6 +23,7 @@ This repository contains the notes for Interview Preparation for SDE interviews.
 | Linked-List               | [LINKED-LIST NOTES](./Linked_List_Notes.md) |
 | Queue                     | [QUEUE NOTES](./Queue_Notes.md)             |
 | Algorithms                | [ALGORITHMS NOTES](./Algorithms_Notes.md)   |
+| Operating Systems         | [OS NOTES](./OS/README.md)                  |
 
 ## Usage
 

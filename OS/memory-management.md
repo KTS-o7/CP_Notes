@@ -9,6 +9,7 @@
 6. [Page Replacement Algorithms](#page-replacement-algorithms)
 7. [Thrashing](#thrashing)
 8. [Key Interview Questions](#key-interview-questions)
+9. [Practice Exercises](#practice-exercises)
 
 ## Memory Management Basics
 
@@ -332,3 +333,23 @@ CPU utilization
 
 5. **Q: Paging vs Segmentation — which is used in modern OSes?**
    A: Most modern OSes use paging (with or without segmentation). Paging eliminates external fragmentation, simplifies memory allocation. Linux uses paging; x86 supports segmented paging but most OSes use a flat memory model with paging only.
+
+## Practice Exercises
+
+### Address Translation
+1. Page size is 4 KB. Find page number and offset for logical address `8200`.
+2. Page size is 1 KB. Find page number and offset for logical address `5000`.
+3. If page 3 maps to frame 9 and offset is 200, calculate the physical address for 4 KB pages.
+4. Explain why TLB hit ratio has a large effect on memory performance.
+5. Compare single-level and multi-level page tables.
+
+### Page Replacement
+1. For reference string `7 0 1 2 0 3 0 4 2 3 0 3 2`, count FIFO faults with 3 frames.
+2. Repeat using LRU.
+3. Identify one case where FIFO can show Belady's anomaly.
+4. Explain why OPT is useful even though it cannot be implemented.
+5. Explain how Clock approximates LRU.
+
+### Hands-on
+1. Write a simple FIFO and LRU page replacement simulator.
+2. Change the number of frames and observe how the fault count changes.

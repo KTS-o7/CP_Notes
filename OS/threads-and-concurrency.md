@@ -9,6 +9,8 @@
 6. [Synchronization Primitives](#synchronization-primitives)
 7. [Classical Synchronization Problems](#classical-synchronization-problems)
 8. [Key Interview Questions](#key-interview-questions)
+9. [Minimal Pthreads Example](#minimal-pthreads-example)
+10. [Practice Exercises](#practice-exercises)
 
 ## Threads vs Processes
 
@@ -284,3 +286,54 @@ Each needs 2 chopsticks to eat
 
 5. **Q: What happens if a thread in a process crashes?**
    A: In most implementations, if a thread causes a segmentation fault or unhandled exception, the entire process terminates because threads share the same address space and the OS delivers fatal signals to the process, not individual threads.
+
+## Minimal Pthreads Example
+
+```c
+#include <pthread.h>
+#include <stdio.h>
+
+int counter = 0;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+
+void* work(void* arg) {
+    for (int i = 0; i < 100000; i++) {
+        pthread_mutex_lock(&lock);
+        counter++;
+        pthread_mutex_unlock(&lock);
+    }
+    return NULL;
+}
+
+int main() {
+    pthread_t t1, t2;
+    pthread_create(&t1, NULL, work, NULL);
+    pthread_create(&t2, NULL, work, NULL);
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+    printf("%d\n", counter);
+    return 0;
+}
+```
+
+Remove the mutex calls and run multiple times to observe the race condition.
+
+## Practice Exercises
+
+### Beginner
+1. Explain process vs thread using memory, stack, and failure impact.
+2. Identify the shared and private parts of a thread.
+3. Explain the difference between race condition and data race.
+4. Explain why `counter++` is not atomic.
+5. Compare mutex and binary semaphore.
+
+### Interview
+1. Explain bounded waiting in the critical section problem.
+2. Explain why Peterson's solution is mostly historical on modern CPUs.
+3. Compare spinlock and blocking mutex.
+4. Explain how condition variables avoid busy waiting.
+5. Explain reader starvation and writer starvation in read-write locks.
+
+### Hands-on
+1. Implement the pthread counter example with and without a mutex.
+2. Implement producer-consumer using semaphores.

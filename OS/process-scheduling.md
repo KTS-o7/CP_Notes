@@ -9,6 +9,7 @@
 6. [Multiple Processor Scheduling](#multiple-processor-scheduling)
 7. [Real-Time Scheduling](#real-time-scheduling)
 8. [Key Interview Questions](#key-interview-questions)
+9. [Practice Exercises](#practice-exercises)
 
 ## Scheduling Queues
 
@@ -232,3 +233,23 @@ High-priority task blocked by low-priority task holding a resource.
 
 5. **Q: What is priority inversion and how is it solved?**
    A: High-priority task waits for low-priority task holding a shared resource, while medium-priority tasks run (starving the high-priority task). Solved by priority inheritance: low-priority task gets temporarily boosted to the highest waiter's priority.
+
+## Practice Exercises
+
+### Beginner
+1. Define arrival time, burst time, completion time, turnaround time, waiting time, and response time.
+2. Draw the FCFS Gantt chart for `P1(AT=0,BT=5)`, `P2(AT=2,BT=3)`, `P3(AT=4,BT=1)`.
+3. Repeat the same set using non-preemptive SJF.
+4. Repeat using SRTF and note every preemption.
+5. Use Round Robin with quantum 2 and calculate average waiting time.
+
+### Interview
+1. Explain why SJF can starve long jobs.
+2. Explain why Round Robin time quantum cannot be too small.
+3. Compare throughput and response time as scheduling goals.
+4. Explain how aging helps priority scheduling.
+5. Explain why MLFQ favors interactive jobs.
+
+### Hands-on
+1. Write a small simulator that accepts arrival and burst times and prints a Gantt chart.
+2. Extend it to calculate average waiting time and turnaround time for FCFS and RR.
