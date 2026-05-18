@@ -158,7 +158,8 @@ SSL (Secure Sockets Layer) renamed to TLS (Transport Layer Security).
 Client                                  Server
   ClientHello ─────────────────────→
   (supported ciphers, key share)
-                  ←─────────── ServerHello + EncryptedExtensions
+                  ←─────────── ServerHello
+                                + EncryptedExtensions
                                 + Certificate + CertificateVerify
                                 + Finished
   Finished ──────────────────→
@@ -169,7 +170,7 @@ Client                                  Server
 - 1-RTT handshake (down from 2-RTT in TLS 1.2)
 - Removed all legacy/insecure algorithms (RSA key exchange, CBC, RC4, SHA-1)
 - Forward secrecy mandatory (ECDHE only)
-- Encrypted ServerHello, certificates, and finished messages
+- Encrypts most handshake messages after `ServerHello`, including `EncryptedExtensions`, certificates, and finished messages. The initial `ServerHello` itself is visible because both sides still need it to derive handshake keys.
 
 ## Firewalls & IDS/IPS
 

@@ -63,7 +63,7 @@ A **computer network** is a set of interconnected devices (computers, servers, r
 
 | Topology | Pros | Cons |
 |----------|------|------|
-| **Star** | Easy troubleshooting, single point of failure (hub) | Hub failure = network down |
+| **Star** | Easy troubleshooting, easy to add/remove nodes | Hub/switch failure = network down |
 | **Bus** | Simple, cheap cabling | Single break = network down, collisions |
 | **Ring** | Equal access, predictable | One node failure breaks ring (unless dual ring) |
 | **Mesh** | Highly redundant, no single point of failure | Expensive cabling (n(n-1)/2 links) |
@@ -108,7 +108,7 @@ The **Open Systems Interconnection** model (ISO standard) defines 7 layers:
   - **LLC** (Logical Link Control): multiplexes network-layer protocols
 - Devices: Switch, Bridge, NIC
 - **PDU**: Frame
-- Protocols: Ethernet (data link), PPP, HDLC, ARP
+- Protocols: Ethernet (data link), PPP, HDLC. ARP is often taught at the boundary between Layer 2 and Layer 3 because it maps IP addresses to MAC addresses on a local link.
 
 #### 3. Network Layer (L3)
 - End-to-end **packet** delivery across networks
@@ -170,7 +170,7 @@ The **Internet protocol suite**, developed by DARPA, with 4 layers:
 +------------------------------------------+
 |  3. Transport      TCP, UDP              |  ← OSI L4
 +------------------------------------------+
-|  2. Internet       IP, ICMP, ARP         |  ← OSI L3
+|  2. Internet       IP, ICMP              |  ← OSI L3
 +------------------------------------------+
 |  1. Network Access  Ethernet, WiFi, DSL  |  ← OSI L1+L2
 +------------------------------------------+
@@ -182,8 +182,8 @@ The **Internet protocol suite**, developed by DARPA, with 4 layers:
 |-------|--------------|-----------|
 | **Application** | HTTP, FTP, SMTP, DNS, SSH, DHCP | User-facing services |
 | **Transport** | TCP, UDP | End-to-end delivery, reliability, flow control |
-| **Internet** | IP (v4/v6), ICMP, ARP, IGMP | Addressing, routing, fragmentation |
-| **Network Access** | Ethernet, PPP, ARP | Hardware addressing, media access |
+| **Internet** | IP (v4/v6), ICMP, IGMP | Addressing, routing, fragmentation |
+| **Network Access** | Ethernet, PPP, ARP | Hardware addressing, media access. ARP supports IPv4 delivery over local links. |
 
 ### Why TCP/IP won over OSI
 - OSI was designed before protocols existed (too generic)

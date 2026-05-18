@@ -208,3 +208,32 @@ Client                              DHCP Server
 
 5. **Q: HTTP vs HTTPS — what's the overhead?**
    A: HTTPS adds TLS handshake overhead (~2 RTT extra on first connection), CPU cost for encryption/decryption, and slightly larger headers. Session resumption and HTTP/2 multiplexing mitigate this.
+
+## Full Walkthrough: Opening an HTTPS Website
+
+When you type `https://example.com` in a browser:
+
+1. Browser checks cache, HSTS rules, and whether it already has a usable connection.
+2. DNS resolves `example.com` to an IP address using cache, recursive resolver, root, TLD, and authoritative servers.
+3. The host decides whether the destination IP is local or remote using its subnet mask.
+4. If remote, the packet is sent to the default gateway. ARP resolves the gateway IP to a MAC address on the local link.
+5. TCP establishes a connection to destination port `443` with the three-way handshake.
+6. TLS negotiates protocol version, cipher suite, certificate validation, and session keys.
+7. Browser sends an encrypted HTTP request.
+8. Server returns encrypted HTTP response data.
+9. Browser parses HTML, discovers CSS/JS/images, and may repeat DNS, TCP, TLS, and HTTP steps for additional origins.
+10. TCP and TLS connections are reused when possible to reduce latency.
+
+## Practice Exercises
+
+### Beginner
+1. List the DNS lookup steps for `www.example.com`.
+2. Explain why HTTP is stateless and how cookies add state.
+3. Compare POP3 and IMAP for someone using email on both phone and laptop.
+4. Explain DHCP DORA in four steps.
+5. Identify the application-layer protocol used by `ssh user@host`.
+
+### Hands-on
+1. Run `nslookup example.com` or `dig example.com A` and identify the returned record.
+2. Run `curl -v https://example.com` and find the TLS handshake and HTTP status code.
+3. Use browser developer tools to inspect request headers, response headers, and status codes.

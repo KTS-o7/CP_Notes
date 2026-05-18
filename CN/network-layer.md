@@ -197,3 +197,24 @@ IPv6 address: 128 bits, 8 groups of 4 hex digits (e.g., `2001:0db8:85a3:0000:000
 
 5. **Q: How does traceroute work?**
    A: Sends packets with increasing TTL values. Router at hop N decrements TTL to 0, drops packet, sends ICMP Time Exceeded message back to source. Source learns each router's IP from these ICMP replies.
+
+## Practice Exercises
+
+### Subnetting
+1. Split `192.168.100.0/24` into 8 equal subnets. What is the new prefix?
+2. For `192.168.100.64/26`, list the network address, broadcast address, and usable host range.
+3. How many usable hosts are available in `10.0.8.0/21`?
+4. Find the network address of `172.16.45.200/20`.
+5. You need at least 120 usable hosts in each subnet. What prefix length should you choose?
+
+### Protocol Reasoning
+1. Explain when a host uses ARP before sending a packet.
+2. Explain why routers decrement TTL.
+3. Compare static NAT, dynamic NAT, and PAT.
+4. Explain why RIP does not scale well for large networks.
+5. Explain why IPv6 removes broadcast.
+
+### Hands-on
+1. Run `ping 8.8.8.8` and identify which ICMP messages are involved.
+2. Run `traceroute example.com` or `tracert example.com` and count the hops.
+3. Run `arp -a` after pinging your default gateway and find its MAC entry.
